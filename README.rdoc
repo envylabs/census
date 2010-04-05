@@ -1,0 +1,5 @@
+= Census
+
+Census is a Rails plugin that collects searchable demographics data for each
+of your application's users. The data to be collected is defined using a simple
+admin interface that Census provides.

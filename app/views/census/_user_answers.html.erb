@@ -1,0 +1,10 @@
+<div class="census_answers">
+  <% DataGroup.all.each do |group| -%>
+    <h3><%=h group.name %></h3>
+    <ul>
+      <% group.questions.each do |question| -%>
+        <li><b><%=h question.prompt %></b> <%=h user.all_answers_for(question).map(&:data).join(', ') %></li>
+      <% end -%>
+    </ul>
+  <% end -%>
+</div>

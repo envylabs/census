@@ -1,0 +1,40 @@
+<% if question.choices.empty? -%>
+  <% answer = user.answer_for(question) -%>
+  <% fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |builder| -%>
+    <%= builder.hidden_field :id %>
+    <%= builder.hidden_field :question_id %>
+    <div class="text_field">
+      <%= builder.label :data, question.prompt %>
+      <%= builder.text_field :data %>
+    </div>
+  <% end -%>
+
+<% elsif question.multiple? -%>
+  <div class="checkboxes">
+    <%= label_tag question.prompt %>
+    <ul>
+      <% question.choices.each do |choice| -%>
+        <% answer = user.answer_for_choice(choice) -%>
+        <% fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |builder| -%>
+          <%= builder.hidden_field :id %>
+          <%= builder.hidden_field :question_id %>
+          <li>
+            <%= builder.check_box :data, {}, choice.value, '' %>
+            <%= builder.label :data, choice.value %>
+          </li>
+        <% end -%>
+      <% end -%>
+    </ul>
+  </div>
+
+<% else -%>
+  <% answer = user.answer_for(question) -%>
+  <% fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |builder| -%>
+    <%= builder.hidden_field :id %>
+    <%= builder.hidden_field :question_id %>
+    <div class="select_field">
+      <%= builder.label :data, question.prompt %>
+      <%= builder.collection_select :data, question.choices, :value, :value, :include_blank => true %>
+    </div>
+  <% end -%>
+<% end -%>

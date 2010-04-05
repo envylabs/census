@@ -1,0 +1,10 @@
+<div class="census_questions">
+  <% DataGroup.all.each do |group| -%>
+    <fieldset>
+      <legend><%=h group.name %></legend>
+      <% group.questions.each do |question| -%>
+        <%= render 'census/question_fields', :question => question, :user => user %>
+      <% end -%>
+    </fieldset>
+  <% end -%>
+</div>

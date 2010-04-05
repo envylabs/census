@@ -1,0 +1,22 @@
+<fieldset class="fields">
+  <legend>Question <%= form.object.position %></legend>
+  <div class="question">
+    <%= form.label :prompt, "Label" %>
+    <%= form.text_field :prompt %>
+    <%= link_to_remove_fields "remove", form %>
+    <br/>
+    <%= form.label :data_type %>
+    <%= form.select :data_type, Question.data_types %>
+  </div>
+  <fieldset>
+    <legend>Answer Choices (leave empty to allow freeform text entry)</legend>
+    <% form.fields_for :choices do |builder| %>
+      <%= render 'choice_fields', :form => builder %>
+    <% end %>
+    <div>
+      <%= link_to_add_fields "Add Answer", form, :choices %>
+    </div>
+    <%= form.check_box :multiple %>
+    <%= form.label :multiple, "Allow multiple selections" %>
+  </fieldset>
+</fieldset>

@@ -1,0 +1,11 @@
+<%= form.error_messages %>
+<div class="text_field">
+  <%= form.label :name, "Group Name" %>
+  <%= form.text_field :name %>
+</div>
+<% form.fields_for :questions do |builder| %>
+  <%= render "question_fields", :form => builder %>
+<% end %>
+<div>
+  <%= link_to_add_fields "Add Question", form, :questions %>
+</div>
