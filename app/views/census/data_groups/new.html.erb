@@ -1,6 +1,6 @@
 <% form_for [:census, @data_group], :html => { :class => "census_data_group_form" } do |form| %>
 <fieldset>
-  <legend>New Demographics Data Group</legend>
+  <legend>New Census Data Group</legend>
   <%= render :partial => 'form', :object => form %>
   <%= form.submit 'Save', :disable_with => 'Please wait...' %>
 </fieldset>

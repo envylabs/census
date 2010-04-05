@@ -13,7 +13,7 @@ class Census::DataGroupsController < ApplicationController
     
     if @data_group.save
       flash[:notice] = "Created #{@data_group.name}"
-      redirect_to census_data_groups_path
+      redirect_to census_admin_path
     else
       render :action => 'new', :status => :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class Census::DataGroupsController < ApplicationController
     
     if @data_group.update_attributes(params[:data_group])
       flash[:notice] = "Saved #{@data_group.name}"
-      redirect_to census_data_groups_path
+      redirect_to census_admin_path
     else
       render :action => 'edit', :status => :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class Census::DataGroupsController < ApplicationController
     @data_group = DataGroup.find(params[:id])
     @data_group.destroy
     flash[:notice] = "Deleted #{@data_group.name}"
-    redirect_to census_data_groups_path
+    redirect_to census_admin_path
   end
 
 end

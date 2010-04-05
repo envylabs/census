@@ -4,7 +4,7 @@ class DataGroupsControllerTest < ActionController::TestCase
 
   tests Census::DataGroupsController
   
-  should_route :get, '/census/data_groups',
+  should_route :get, '/census/admin',
     :controller => 'census/data_groups', :action  => 'index'
 
   should_route :get, '/census/data_groups/new',
@@ -83,7 +83,7 @@ class DataGroupsControllerTest < ActionController::TestCase
       
         should_respond_with       :redirect
         should_assign_to          :data_group
-        should_redirect_to('census admin page') { census_data_groups_url }
+        should_redirect_to('census admin page') { census_admin_url }
       
         should 'create the data group' do
           assert !assigns(:data_group).new_record?
@@ -118,7 +118,7 @@ class DataGroupsControllerTest < ActionController::TestCase
       
         should_respond_with           :redirect
         should_assign_to(:data_group) { @group }
-        should_redirect_to('census admin page') { census_data_groups_url }
+        should_redirect_to('census admin page') { census_admin_url }
       
         should 'update the data group' do
           assert_equal('CHANGED', @group.reload.name)
@@ -152,7 +152,7 @@ class DataGroupsControllerTest < ActionController::TestCase
     
       should_respond_with             :redirect
       should_assign_to(:data_group)   { @group }
-      should_redirect_to('census admin page') { census_data_groups_url }
+      should_redirect_to('census admin page') { census_admin_url }
     
       should 'destroy the data group' do
         assert_nil(DataGroup.find_by_id(@group.id))

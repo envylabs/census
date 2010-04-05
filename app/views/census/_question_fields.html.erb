@@ -1,5 +1,5 @@
 <% if question.choices.empty? -%>
-  <% answer = user.answer_for(question) -%>
+  <% answer = user.first_answer_for(question) -%>
   <% fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |builder| -%>
     <%= builder.hidden_field :id %>
     <%= builder.hidden_field :question_id %>
@@ -28,7 +28,7 @@
   </div>
 
 <% else -%>
-  <% answer = user.answer_for(question) -%>
+  <% answer = user.first_answer_for(question) -%>
   <% fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |builder| -%>
     <%= builder.hidden_field :id %>
     <%= builder.hidden_field :question_id %>
