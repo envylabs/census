@@ -81,7 +81,7 @@ Gem::Specification.new do |s|
      "test/rails_root/config/initializers/new_rails_defaults.rb",
      "test/rails_root/config/initializers/session_store.rb",
      "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20100406154342_create_census_tables.rb",
+     "test/rails_root/db/migrate/20100406160306_create_census_tables.rb",
      "test/rails_root/db/schema.rb",
      "test/rails_root/test/factories/census.rb",
      "test/rails_root/test/performance/browsing_test.rb",
