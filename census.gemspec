@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{census}
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Kendall"]
@@ -81,7 +81,7 @@ Gem::Specification.new do |s|
      "test/rails_root/config/initializers/new_rails_defaults.rb",
      "test/rails_root/config/initializers/session_store.rb",
      "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20100406180106_create_census_tables.rb",
+     "test/rails_root/db/migrate/20100406184714_create_census_tables.rb",
      "test/rails_root/db/schema.rb",
      "test/rails_root/test/factories/census.rb",
      "test/rails_root/test/performance/browsing_test.rb",
