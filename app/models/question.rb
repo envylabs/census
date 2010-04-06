@@ -6,7 +6,7 @@ class Question < ActiveRecord::Base
   has_many :choices, :dependent => :destroy, :inverse_of => :question
   accepts_nested_attributes_for :choices, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true
   
-  has_many :answers, :dependent => :destroy
+  has_many :answers, :dependent => :destroy, :inverse_of => :question
   
   validates_presence_of :prompt,
                         :data_group

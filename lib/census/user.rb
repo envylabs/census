@@ -26,7 +26,7 @@ module Census
       # Hook for defining associations.
       def self.included(model)
         model.class_eval do
-          has_many                      :answers, :dependent => :destroy
+          has_many                      :answers, :dependent => :destroy, :inverse_of => :user
           accepts_nested_attributes_for :answers, :reject_if => lambda { |a| a[:data].blank? }
         end
       end

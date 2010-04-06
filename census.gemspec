@@ -57,7 +57,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/envylabs/census}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Rails user demographics collection and searching}
   s.test_files = [
     "test/controllers/data_groups_controller_test.rb",
@@ -81,7 +81,7 @@ Gem::Specification.new do |s|
      "test/rails_root/config/initializers/new_rails_defaults.rb",
      "test/rails_root/config/initializers/session_store.rb",
      "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20100406160306_create_census_tables.rb",
+     "test/rails_root/db/migrate/20100406180106_create_census_tables.rb",
      "test/rails_root/db/schema.rb",
      "test/rails_root/test/factories/census.rb",
      "test/rails_root/test/performance/browsing_test.rb",
