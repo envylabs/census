@@ -3,14 +3,14 @@
   <% fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |builder| -%>
     <%= builder.hidden_field :id %>
     <%= builder.hidden_field :question_id %>
-    <div class="text_field">
+    <div class="text_field" id="<%=h question.prompt.parameterize %>">
       <%= builder.label :data, question.prompt %>
       <%= builder.text_field :data %>
     </div>
   <% end -%>
 
 <% elsif question.multiple? -%>
-  <div class="checkboxes">
+  <div class="checkboxes" id="<%=h question.prompt.parameterize %>">
     <%= label_tag question.prompt %>
     <ul>
       <% question.choices.each do |choice| -%>
@@ -32,7 +32,7 @@
   <% fields_for "user[answers_attributes][#{user.answers.index(answer)}]", answer do |builder| -%>
     <%= builder.hidden_field :id %>
     <%= builder.hidden_field :question_id %>
-    <div class="select_field">
+    <div class="select_field" id="<%=h question.prompt.parameterize %>">
       <%= builder.label :data, question.prompt %>
       <%= builder.collection_select :data, question.choices, :value, :value, :include_blank => true %>
     </div>

@@ -1,6 +1,6 @@
 <div class="census_questions">
   <% DataGroup.all.each do |group| -%>
-    <fieldset>
+    <fieldset id="<%=h group.name.parameterize %>">
       <legend><%=h group.name %></legend>
       <% group.questions.each do |question| -%>
         <%= render 'census/question_fields', :question => question, :user => user %>
