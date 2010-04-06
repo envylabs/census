@@ -6,7 +6,7 @@
     <%= link_to_remove_fields "remove", form %>
     <br/>
     <%= form.label :data_type %>
-    <%= form.select :data_type, Question.data_types %>
+    <%= form.collection_select :data_type, Census::DataType.all, :name, :name %>
   </div>
   <fieldset>
     <legend>Answer Choices (leave empty to allow freeform text entry)</legend>

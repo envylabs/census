@@ -10,39 +10,17 @@ class Question < ActiveRecord::Base
   
   validates_presence_of :prompt,
                         :data_group
-
-  def self.load_data_type(klass)
-    @@question_types ||= []
-    @@question_types << klass
-  end
-  
-  def self.data_types
-    @@question_types ||= [StringQuestion, NumberQuestion, BooleanQuestion]
-    @@question_types.map {|klass| [klass.data_type_description, klass.name]}
-  end
-  
-  def self.data_type_description
-    ""
-  end
-  
-  def data_type
-    self.class.name
-  end
-  
-  def data_type=(type)
-    self[:type] = type
-  end
-    
+                 
   def sql_transform(column_name = '?')
-    "#{column_name}"
+    data_type_definition.sql_transform.call(column_name)
   end
   
   def format_data(data)
-    data
+    data_type_definition.format_data.call(data)
   end
   
   def validate_data(data)
-    nil
+    data_type_definition.validate_data.call(data)
   end
   
   def to_s(data)
@@ -60,6 +38,10 @@ class Question < ActiveRecord::Base
 
   private
   
+  
+  def data_type_definition
+    Census::DataType.find(data_type) || Census::DataType.find('String')
+  end
   
   def conditions_for(value)
     if value.kind_of?(Range) || value.kind_of?(Array)

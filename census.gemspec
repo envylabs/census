@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Kendall"]
-  s.date = %q{2010-04-05}
+  s.date = %q{2010-04-06}
   s.description = %q{Census is a Rails plugin that collects searchable demographics data for each of your application's users.}
   s.email = %q{mark@envylabs.com}
   s.extra_rdoc_files = [
@@ -24,12 +24,9 @@ Gem::Specification.new do |s|
      "app/controllers/census/data_groups_controller.rb",
      "app/helpers/census_helper.rb",
      "app/models/answer.rb",
-     "app/models/boolean_question.rb",
      "app/models/choice.rb",
      "app/models/data_group.rb",
-     "app/models/number_question.rb",
      "app/models/question.rb",
-     "app/models/string_question.rb",
      "app/views/census/_question_fields.html.erb",
      "app/views/census/_user_answers.html.erb",
      "app/views/census/_user_questions.html.erb",
@@ -46,11 +43,13 @@ Gem::Specification.new do |s|
      "generators/census/lib/rake_commands.rb",
      "generators/census/templates/README",
      "generators/census/templates/census.js",
+     "generators/census/templates/census.rb",
      "generators/census/templates/factories.rb",
      "generators/census/templates/migrations/with_users.rb",
      "generators/census/templates/migrations/without_users.rb",
      "generators/census/templates/user.rb",
      "lib/census.rb",
+     "lib/census/data_type.rb",
      "lib/census/user.rb",
      "rails/init.rb",
      "shoulda_macros/census.rb"
@@ -63,12 +62,9 @@ Gem::Specification.new do |s|
   s.test_files = [
     "test/controllers/data_groups_controller_test.rb",
      "test/models/answer_test.rb",
-     "test/models/boolean_question_test.rb",
      "test/models/choice_test.rb",
      "test/models/data_group_test.rb",
-     "test/models/number_question_test.rb",
      "test/models/question_test.rb",
-     "test/models/string_question_test.rb",
      "test/models/user_test.rb",
      "test/rails_root/app/controllers/application_controller.rb",
      "test/rails_root/app/helpers/application_helper.rb",
@@ -79,12 +75,13 @@ Gem::Specification.new do |s|
      "test/rails_root/config/environments/production.rb",
      "test/rails_root/config/environments/test.rb",
      "test/rails_root/config/initializers/backtrace_silencers.rb",
+     "test/rails_root/config/initializers/census.rb",
      "test/rails_root/config/initializers/inflections.rb",
      "test/rails_root/config/initializers/mime_types.rb",
      "test/rails_root/config/initializers/new_rails_defaults.rb",
      "test/rails_root/config/initializers/session_store.rb",
      "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20100405170853_create_census_tables.rb",
+     "test/rails_root/db/migrate/20100406154342_create_census_tables.rb",
      "test/rails_root/db/schema.rb",
      "test/rails_root/test/factories/census.rb",
      "test/rails_root/test/performance/browsing_test.rb",

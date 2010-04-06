@@ -21,17 +21,17 @@ class AnswerTest < ActiveSupport::TestCase
     context "getting formatted data" do
       
       should "format strings" do
-        a = Factory(:answer, :question => Factory(:string_question), :data => 'abc123')
+        a = Factory(:answer, :question => Factory(:question, :data_type => 'String'), :data => 'abc123')
         assert_equal 'abc123', a.formatted_data
       end
       
       should "format numbers" do
-        a = Factory(:answer, :question => Factory(:number_question), :data => '5389')
+        a = Factory(:answer, :question => Factory(:question, :data_type => 'Number'), :data => '5389')
         assert_equal 5389, a.formatted_data
       end
 
       should "format booleans" do
-        a = Factory(:answer, :question => Factory(:boolean_question), :data => '0')
+        a = Factory(:answer, :question => Factory(:question, :data_type => 'Yes/No'), :data => '0')
         assert_equal false, a.formatted_data
         a.data = '1'
         assert_equal true, a.formatted_data

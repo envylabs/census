@@ -19,7 +19,8 @@ class QuestionTest < ActiveSupport::TestCase
     should_validate_presence_of     :prompt,
                                     :data_group
     
-    should_allow_mass_assignment_of :prompt,
+    should_allow_mass_assignment_of :data_type,
+                                    :prompt,
                                     :multiple,
                                     :other
                                     
@@ -87,6 +88,126 @@ class QuestionTest < ActiveSupport::TestCase
       
     end
     
+    context "with String data type" do
+
+      setup do
+        @question.data_type = 'String'
+      end
+      
+      should "return a default sql transform" do
+        assert_equal "?", @question.sql_transform
+      end
+
+      context "with answers" do
+
+        setup do
+          @answer1 = Factory(:answer, :question => @question, :data => 'findme')
+          @answer2 = Factory(:answer, :question => @question, :data => 'dont_findme')
+          @answer3 = Factory(:answer, :question => @question, :data => 'findme_too')        
+        end
+
+        should "find answers matching a given string" do
+          assert @question.find_answers_matching('findme').include?(@answer1)
+        end
+
+        should "not find answers not matching the given string" do
+          assert !@question.find_answers_matching('findme').include?(@answer2)
+        end
+
+        should "find answers matching an array of strings" do
+          result = @question.find_answers_matching(['findme', 'findme_too'])
+          assert result.include?(@answer1)
+          assert result.include?(@answer3)
+          assert !result.include?(@answer2)
+        end
+
+      end
+
+    end
+
+    context "with Number data type" do
+
+      setup do
+        @question.data_type = 'Number'
+      end
+
+      should "return an integer sql transform" do
+        assert_equal "CAST(? AS SIGNED INTEGER)", @question.sql_transform
+      end
+      
+      context "with answers" do
+
+        setup do
+          @answer1 = Factory(:answer, :question => @question, :data => '123')
+          @answer2 = Factory(:answer, :question => @question, :data => '125')
+          @answer3 = Factory(:answer, :question => @question, :data => '127')
+        end
+
+        should "find answers matching a given string" do
+          assert @question.find_answers_matching('123').include?(@answer1)
+        end
+
+        should "not find answers not matching the given string" do
+          assert !@question.find_answers_matching('123').include?(@answer2)
+        end
+
+        should "find answers matching a given number" do
+          assert @question.find_answers_matching(123).include?(@answer1)
+        end
+
+        should "not find answers not matching the given number" do
+          assert !@question.find_answers_matching(123).include?(@answer2)
+        end
+
+        should "find answers in a given range" do
+          result = @question.find_answers_matching(123..126)
+          assert result.include?(@answer1)
+          assert result.include?(@answer2)
+          assert !result.include?(@answer3)
+        end
+
+      end
+
+    end
+
+    context "with Yes/No data type" do
+
+      setup do
+        @question.data_type = 'Yes/No'
+      end
+
+      should "return a boolean sql transform" do
+        assert_equal "CAST(? AS CHAR)", @question.sql_transform
+      end
+
+      context "with answers" do
+
+        setup do
+          @answer1 = Factory(:answer, :question => @question)
+          @answer1.update_attribute(:data, false)
+          @answer2 = Factory(:answer, :question => @question, :data => true)
+        end
+
+        should "find answers matching true" do
+          assert @question.find_answers_matching(true).include?(@answer2)
+        end
+
+        should "not find answers not matching true" do
+          assert !@question.find_answers_matching(true).include?(@answer1)
+        end
+
+        should "find answers matching false" do
+          assert @question.find_answers_matching(false).include?(@answer1)
+        end
+
+        should "not find answers not matching false" do
+          assert !@question.find_answers_matching(false).include?(@answer2)
+        end
+
+      end
+
+    end
+
   end
-  
+      
 end

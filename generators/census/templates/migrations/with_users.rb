@@ -8,7 +8,7 @@ class CreateCensusTables < ActiveRecord::Migration
 
     create_table :questions do |t|
       t.integer :data_group_id
-      t.string  :type
+      t.string  :data_type
       t.string  :prompt
       t.boolean :multiple
       t.boolean :other

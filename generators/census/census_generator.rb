@@ -5,6 +5,9 @@ class CensusGenerator < Rails::Generator::Base
 
   def manifest
     record do |m|
+      m.directory File.join("config", "initializers")
+      m.file "census.rb",  "config/initializers/census.rb"
+      
       m.directory File.join("public", "javascripts")
       m.file "census.js", "public/javascripts/census.js"
       
