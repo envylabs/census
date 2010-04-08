@@ -5,12 +5,12 @@ module Census
     end
     
     def perform
-      results = []
+      results = nil
       @options.each_pair do |question, value|
         users = question.find_answers_matching(value).map(&:user)
-        results = results.empty? ? users : results & users
+        results = results ? results & users : users
       end
-      results
+      results || []
     end
   end
 end
