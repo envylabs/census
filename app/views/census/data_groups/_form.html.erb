@@ -3,9 +3,11 @@
   <%= form.label :name, "Group Name" %>
   <%= form.text_field :name %>
 </div>
-<% form.fields_for :questions do |builder| %>
-  <%= render "question_fields", :form => builder %>
-<% end %>
-<div>
-  <%= link_to_add_fields "Add Question", form, :questions %>
+<div class="census_question_list" id="<%= form.object.id %>">
+  <% form.fields_for :questions do |builder| %>
+    <%= render "question_fields", :form => builder %>
+  <% end %>
+  <div>
+    <%= link_to_add_fields "Add Question", form, :questions %>
+  </div>
 </div>

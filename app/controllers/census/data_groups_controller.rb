@@ -1,7 +1,7 @@
 class Census::DataGroupsController < ApplicationController
   
   def index
-    @data_groups = DataGroup.all(:order => :position)
+    @data_groups = DataGroup.all
   end
 
   def new
@@ -39,6 +39,15 @@ class Census::DataGroupsController < ApplicationController
     @data_group.destroy
     flash[:notice] = "Deleted #{@data_group.name}"
     redirect_to census_admin_path
+  end
+  
+  def sort
+    group_positions = params[:data_group].to_a
+    DataGroup.all.each_with_index do |group, i|
+      group.position = group_positions.index(group.id.to_s) + 1
+      group.save
+    end
+    render :text => 'ok'
   end
 
 end

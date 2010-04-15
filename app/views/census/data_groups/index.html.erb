@@ -1,8 +1,9 @@
 <h2>Census Data Groups</h2>
 <ul class="census_data_group_list">
   <% @data_groups.each do |group| %>
-    <li>
-      <%=link_to group.name, edit_census_data_group_path(group) %> 
+    <li class="census_data_group" id="data_group-<%= group.id %>">
+      <%=h group.name %>
+      <%=link_to 'edit', edit_census_data_group_path(group) %> 
     </li>
   <% end %>
 </ul>

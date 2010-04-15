@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
 
   belongs_to :data_group, :inverse_of => :questions
   acts_as_list :scope => :data_group
+  default_scope :order => :position
   
   has_many :choices, :dependent => :destroy, :inverse_of => :question
   accepts_nested_attributes_for :choices, :reject_if => lambda { |a| a[:value].blank? }, :allow_destroy => true

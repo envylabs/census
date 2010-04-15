@@ -4,9 +4,12 @@
 Next:
 
 1. In order for the question admin views to work, you'll need to include both
-   jQuery and the census.js file in your application layout:
+   jQuery and the census.js file in your application layout. To enable drag-and-drop
+   sorting of questions and choices in the census admin, you'll also need to
+   include jQuery UI.
 
-     <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js' %>
+     <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %>
+     <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' %>
      <%= javascript_include_tag 'census' %>
 
 2. Add a link to the question admin page somewhere in your app:

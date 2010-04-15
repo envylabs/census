@@ -1,5 +1,5 @@
-<fieldset class="fields">
-  <legend>Question <%= form.object.position %></legend>
+<fieldset class="census_question fields" id="question-<%= form.object.id %>">
+  <legend>Question</legend>
   <div class="question">
     <%= form.label :prompt, "Label" %>
     <%= form.text_field :prompt %>
@@ -8,13 +8,15 @@
     <%= form.label :data_type %>
     <%= form.collection_select :data_type, Census::DataType.all, :name, :name %>
   </div>
-  <fieldset>
+  <fieldset class="choices">
     <legend>Answer Choices (leave empty to allow freeform text entry)</legend>
-    <% form.fields_for :choices do |builder| %>
-      <%= render 'choice_fields', :form => builder %>
-    <% end %>
-    <div>
-      <%= link_to_add_fields "Add Answer", form, :choices %>
+    <div class="census_choice_list" id="<%= form.object.id %>">
+      <% form.fields_for :choices do |builder| %>
+        <%= render 'choice_fields', :form => builder %>
+      <% end %>
+      <div>
+        <%= link_to_add_fields "Add Answer", form, :choices %>
+      </div>
     </div>
     <%= form.check_box :multiple %>
     <%= form.label :multiple, "Allow multiple selections" %>
