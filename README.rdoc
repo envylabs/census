@@ -28,8 +28,8 @@ an authentication system that implements a current_user method, and that your us
 model has an admin? method, you could do something like this:
 
   Census.configure do |config|
-		config.admin_role = 'current_user.admin?'
-	end
+    config.admin_role = 'current_user.admin?'
+  end
 	
 The remainder of the configuration file defines various data types that you can use
 for the data you'll be collecting. Census comes with a few data types already
@@ -38,22 +38,20 @@ you can provide various Ruby procs that are used to convert the data to and from
 a string representation that will be stored in the database. The procs you can
 provide are:
 
-* :sql_transform - returns a SQL fragment that will be used for comparing data
-                   when doing search queries
+* :sql_transform - returns a SQL fragment that will be used for comparing data when doing search queries
 
 * :format_data   - used to convert data from its string representation
 
-* :validate_data - used to validate form field submissions, and should return
-                   nil if the data is valid or an error message if it is invalid
+* :validate_data - used to validate form field submissions, and should return nil if the data is valid or an error message if it is invalid
 
 As an example, here's the data type definition for integer data:
 
-	Census::DataType.define(
-	  "Number",
-	  :sql_transform  => lambda {|column_name| "CAST(#{column_name} AS SIGNED INTEGER)"},
-	  :format_data    => lambda {|data| data.to_i unless data.blank? },
-	  :validate_data  => lambda {|data| "must be a number" unless data =~ /^\d*$/}
-	)
+  Census::DataType.define(
+    "Number",
+    :sql_transform  => lambda {|column_name| "CAST(#{column_name} AS SIGNED INTEGER)"},
+    :format_data    => lambda {|data| data.to_i unless data.blank? },
+    :validate_data  => lambda {|data| "must be a number" unless data =~ /^\d*$/}
+  )
 
 == Defining Questions
 
@@ -85,6 +83,29 @@ Somewhere in your app, probably in users/show.html.erb, add the following
 to render the partial:
 
   <%= render 'census/user_answers', :user => @user %>
+
+== Searching
+
+Census provides a search interface for finding users whose answers match a list
+of search criteria. To perform a search, first create a Census::Search object,
+passing your search criteria as a hash of questions and values. We'll assume
+for this example that we have questions for "Hair Color" and "Age," and
+we'll look them up by name.
+
+  hair_color = Question.find_by_prompt('Hair Color')
+  age = Question.find_by_prompt('Age')
+  search = Census::Search.new(hair_color => 'Brown', age => 25)
+
+The search listed above will find all users who have brown hair and are 25 years
+old. You can also pass arrays or ranges, like this:
+
+  search = Census::Search.new(hair_color => ['Brown', 'Blond'], age => 25..30)
+
+That search will find all users between the ages of 25 and 30 that have either
+brown or blond hair. Once you've created the Search object, call its perform
+method to query the database and get back the list of matching users.
+
+  users = search.perform
 
 == Copyright
 
