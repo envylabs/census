@@ -40,6 +40,25 @@ class DataGroupsControllerTest < ActionController::TestCase
       should_assign_to                  :data_groups
     
     end
+
+    context 'using GET to index with restricted access' do
+    
+      setup do
+        Census.configure do |config|
+          config.admin_role = false
+        end
+        get :index
+      end
+      
+      teardown do
+        Census.configure do |config|
+          config.admin_role = true
+        end
+      end        
+    
+      should_respond_with :unauthorized
+    
+    end
     
     context 'using GET to new' do
     

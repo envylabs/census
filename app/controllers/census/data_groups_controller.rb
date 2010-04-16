@@ -1,5 +1,7 @@
 class Census::DataGroupsController < ApplicationController
   
+  before_filter :restrict_access
+  
   def index
     @data_groups = DataGroup.all
   end
@@ -48,6 +50,14 @@ class Census::DataGroupsController < ApplicationController
       group.save
     end
     render :text => 'ok'
+  end
+  
+  
+  private
+  
+  
+  def restrict_access
+    render :text => 'Not authorized', :status => :unauthorized unless instance_eval(Census::configuration.admin_role.to_s)
   end
 
 end
