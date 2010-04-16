@@ -10,6 +10,9 @@ class CensusGenerator < Rails::Generator::Base
       
       m.directory File.join("public", "javascripts")
       m.file "census.js", "public/javascripts/census.js"
+
+      m.directory File.join("public", "stylesheets")
+      m.file "census.css", "public/stylesheets/census.css"
       
       user_model = "app/models/user.rb"
       if File.exists?(user_model)

@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
      "generators/census/lib/insert_commands.rb",
      "generators/census/lib/rake_commands.rb",
      "generators/census/templates/README",
+     "generators/census/templates/census.css",
      "generators/census/templates/census.js",
      "generators/census/templates/census.rb",
      "generators/census/templates/factories.rb",

@@ -2,12 +2,13 @@
 <div class="text_field">
   <%= form.label :name, "Group Name" %>
   <%= form.text_field :name %>
+  <label><span>Drag and drop questions and answer choices to rearrange them</span></label>
 </div>
 <div class="census_question_list" id="<%= form.object.id %>">
   <% form.fields_for :questions do |builder| %>
     <%= render "question_fields", :form => builder %>
   <% end %>
-  <div>
+  <p>
     <%= link_to_add_fields "Add Question", form, :questions %>
-  </div>
+  </p>
 </div>

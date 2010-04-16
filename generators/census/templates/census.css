@@ -1,0 +1,71 @@
+.census_data_group_list {
+	font: 12pt sans-serif;
+	list-style: none;
+}
+
+.census_data_group_list li {
+	padding: 1px 0px;
+}
+
+.census_data_group_list a {
+	font-size: 0.9em;
+}
+
+.census_data_group_form {
+	font: 10pt sans-serif;
+}
+
+.census_data_group_form label {
+	display: inline-block;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.census_data_group_form label span {
+	margin-left: 20px;
+	font-size: 0.9em;
+	color: #777;
+}
+
+.census_data_group_form fieldset {
+	background: #fff;
+	border: none;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.census_data_group_form fieldset legend {
+	padding: 30px 0px 5px;
+	margin: 0px;
+	font-size: 1.2em;
+}
+
+.census_data_group_form .census_question {
+	margin-top: 20px;
+	padding: 10px 8px;
+	background: #ddd;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+.census_data_group_form .census_question .choices {
+	font-size: 0.8em;
+	margin-top: 5px;
+	padding-top: 10px;
+}
+
+.census_data_group_form .census_choice {
+	padding: 5px;
+	margin-bottom: 5px;
+	background: #ccc;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.census_data_group_form .census_question .choices label {
+	margin-left: 0px;
+}
+
+.census_data_group_form .census_question .choices a {
+	margin: 0px 20px 0px 2px;
+}

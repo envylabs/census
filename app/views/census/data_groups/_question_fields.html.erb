@@ -1,25 +1,24 @@
 <fieldset class="census_question fields" id="question-<%= form.object.id %>">
-  <legend>Question</legend>
   <div class="question">
     <%= form.hidden_field :position, :class => 'question_position' %>
-    <%= form.label :prompt, "Label" %>
+    <%= form.label :prompt, "Question" %>
     <%= form.text_field :prompt %>
     <%= link_to_remove_fields "remove", form %>
     <br/>
     <%= form.label :data_type %>
     <%= form.collection_select :data_type, Census::DataType.all, :name, :name %>
   </div>
+  <label>Answer Choices <span>Leave empty to allow freeform text entry</span></label>
   <fieldset class="choices">
-    <legend>Answer Choices (leave empty to allow freeform text entry)</legend>
     <div class="census_choice_list" id="<%= form.object.id %>">
       <% form.fields_for :choices do |builder| %>
         <%= render 'choice_fields', :form => builder %>
       <% end %>
       <div>
         <%= link_to_add_fields "Add Answer", form, :choices %>
+        <%= form.check_box :multiple %>
+        <%= form.label :multiple, "Allow multiple selections" %>
       </div>
     </div>
-    <%= form.check_box :multiple %>
-    <%= form.label :multiple, "Allow multiple selections" %>
   </fieldset>
 </fieldset>

@@ -12,20 +12,25 @@ Next:
      <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' %>
      <%= javascript_include_tag 'census' %>
 
-2. Add a link to the question admin page somewhere in your app:
+2. If you'd like the Census admin pages to look nicer, include the provided census.css
+   file in your application layout.
+
+     <%= stylesheet_link_tag 'census' %>
+
+3. Add a link to the question admin page somewhere in your app:
 
      <%= link_to 'Set up questions', census_admin_path %>
 
-3. Include the partial that displays answers in your user show page:
+4. Include the partial that displays answers in your user show page:
 
      <%= render 'census/user_answers', :user => @user %>
 
-4. Include the partial that allows the user to enter answers in your user
+5. Include the partial that allows the user to enter answers in your user
    edit page:
 
      <%= render 'census/user_questions', :user => @user %>
 
-5. Migrate your database:
+6. Migrate your database:
 
      rake db:migrate
 
