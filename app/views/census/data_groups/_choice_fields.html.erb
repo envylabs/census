@@ -1,4 +1,5 @@
 <div class="census_choice fields" id="choice-<%= form.object.id %>">
+  <%= form.hidden_field :position, :class => 'choice_position' %>
   <%= form.text_field :value %>
   <%= link_to_remove_fields "remove", form %>
 </div>

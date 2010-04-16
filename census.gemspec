@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Kendall"]
-  s.date = %q{2010-04-15}
+  s.date = %q{2010-04-16}
   s.description = %q{Census is a Rails plugin that collects searchable demographics data for each of your application's users.}
   s.email = %q{mark@envylabs.com}
   s.extra_rdoc_files = [
@@ -21,9 +21,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "app/controllers/census/choices_controller.rb",
      "app/controllers/census/data_groups_controller.rb",
-     "app/controllers/census/questions_controller.rb",
      "app/helpers/census_helper.rb",
      "app/models/answer.rb",
      "app/models/choice.rb",

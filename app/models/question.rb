@@ -1,7 +1,6 @@
 class Question < ActiveRecord::Base
 
   belongs_to :data_group, :inverse_of => :questions
-  acts_as_list :scope => :data_group
   default_scope :order => :position
   
   has_many :choices, :dependent => :destroy, :inverse_of => :question

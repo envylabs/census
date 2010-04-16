@@ -1,6 +1,7 @@
 <fieldset class="census_question fields" id="question-<%= form.object.id %>">
   <legend>Question</legend>
   <div class="question">
+    <%= form.hidden_field :position, :class => 'question_position' %>
     <%= form.label :prompt, "Label" %>
     <%= form.text_field :prompt %>
     <%= link_to_remove_fields "remove", form %>
