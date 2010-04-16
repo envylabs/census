@@ -3,3 +3,89 @@
 Census is a Rails plugin that collects searchable demographics data for each
 of your application's users. The data to be collected is defined using a simple
 admin interface that Census provides.
+
+== Setup
+
+After installing the Census gem, require it in your Rails app and run the census
+generator.
+
+In your config/environment.rb:
+
+  config.gem 'census'
+
+Run the generator and migrate your database:
+
+  script/generate census
+  rake db:migrate
+
+== Configuration
+	
+The generator creates a sample configuration file in config/initializers/census.rb.
+At the top of this file, you'll see a configuration option that allows you to
+restrict access to the Census admin user interface. You'll probably want to set
+this option, or anyone will be able to access the admin UI. Assuming your app has
+an authentication system that implements a current_user method, and that your user
+model has an admin? method, you could do something like this:
+
+  Census.configure do |config|
+		config.admin_role = 'current_user.admin?'
+	end
+	
+The remainder of the configuration file defines various data types that you can use
+for the data you'll be collecting. Census comes with a few data types already
+defined, and you can add additional types if needed. When defining a data type,
+you can provide various Ruby procs that are used to convert the data to and from
+a string representation that will be stored in the database. The procs you can
+provide are:
+
+* :sql_transform - returns a SQL fragment that will be used for comparing data
+                   when doing search queries
+
+* :format_data   - used to convert data from its string representation
+
+* :validate_data - used to validate form field submissions, and should return
+                   nil if the data is valid or an error message if it is invalid
+
+As an example, here's the data type definition for integer data:
+
+	Census::DataType.define(
+	  "Number",
+	  :sql_transform  => lambda {|column_name| "CAST(#{column_name} AS SIGNED INTEGER)"},
+	  :format_data    => lambda {|data| data.to_i unless data.blank? },
+	  :validate_data  => lambda {|data| "must be a number" unless data =~ /^\d*$/}
+	)
+
+== Defining Questions
+
+You can access the Census admin UI at /census/admin. You may want to add a link
+to census_admin_path somewhere in your app's administration interface. Using the
+admin interface, you'll be able to create questions and their optional
+multiple-choice answers. Questions are organized into data groups and can be
+reordered using drag and drop.
+
+You could also create DataGroup, Question, and Choice instances programatically
+if you'd prefer not to use the admin UI.
+
+== Allowing Users to Answer Your Questions
+
+Census provides a partial that you can include in a form that collects answers
+from your users. This partial assumes it's inside of a form_for(:user) block. It
+will render fields for each of the questions you've defined.
+
+ <%= render 'census/user_answers', :user => @user %>
+
+Data groups are rendered as fieldsets that contain a list of input fields, one
+for each question. If you take a look at the rendered HTML, you'll see several
+class and id attributes that you can use to style the form fields as needed.
+
+== Displaying a User's Answers
+
+Census provides a partial that you can use to display a user's answers.
+Somewhere in your app, probably in users/show.html.erb, add the following
+to render the partial:
+
+  <%= render 'census/user_answers', :user => @user %>
+
+== Copyright
+
+Copyright (c) 2010 Envy Labs LLC. See LICENSE for details.
