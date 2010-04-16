@@ -12,8 +12,6 @@ class ChoiceTest < ActiveSupport::TestCase
 
     should_belong_to                :question
     
-    should_act_as_list
-
     should_validate_presence_of     :value,
                                     :question
 

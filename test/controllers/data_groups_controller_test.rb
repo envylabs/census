@@ -22,6 +22,9 @@ class DataGroupsControllerTest < ActionController::TestCase
   should_route :delete, '/census/data_groups/1',
     :controller => 'census/data_groups', :action  => 'destroy', :id => '1'
 
+  should_route :put, '/census/data_groups/sort',
+    :controller => 'census/data_groups', :action  => 'sort'
+
   context 'The Census::DataGroupsController' do
     
     context 'using GET to index' do
@@ -156,6 +159,26 @@ class DataGroupsControllerTest < ActionController::TestCase
     
       should 'destroy the data group' do
         assert_nil(DataGroup.find_by_id(@group.id))
+      end
+    
+    end
+
+    context 'using PUT to sort' do
+    
+      setup do
+        @group_a = Factory(:data_group, :position => 1)
+        @group_b = Factory(:data_group, :position => 2)
+        @group_c = Factory(:data_group, :position => 3)
+        put :sort, :data_group => [@group_b.id.to_s, @group_a.id.to_s, @group_c.id.to_s]
+      end
+    
+      should_respond_with               :success
+      should_respond_with_content_type  :html
+    
+      should 'rearrange the data groups' do
+        assert_equal @group_b, DataGroup.all[0]
+        assert_equal @group_a, DataGroup.all[1]
+        assert_equal @group_c, DataGroup.all[2]
       end
     
     end

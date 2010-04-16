@@ -14,8 +14,6 @@ class QuestionTest < ActiveSupport::TestCase
     should_have_many                :choices, :dependent => :destroy
     should_have_many                :answers, :dependent => :destroy
 
-    should_act_as_list
-
     should_validate_presence_of     :prompt,
                                     :data_group
     
