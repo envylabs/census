@@ -84,6 +84,25 @@ to render the partial:
 
   <%= render 'census/user_answers', :user => @user %>
 
+== Accessing a User's Answers
+
+From your User object, you can get to that user's answers using methods that
+are automatically generated for each of your data groups and questions. For
+example, let's assume you have a data group called "Physical Attributes" with
+questions for "Weight" and "Hair Color." You can retrieve a user's answers
+like this:
+
+	user.census_data.physical_attributes.weight
+	user.census_data.physical_attributes.hair_color
+
+If your data group and question names change frequently, or if you've exposed
+the census admin UI so that the questions can be changed by your users, you'll
+probably want to avoid relying on the auto-generated method names. Instead,
+you can access the user's answers using strings, like this:
+
+  user.census_data['Physical Attributes']['Weight']
+  user.census_data['Physical Attributes']['Hair Color']
+
 == Searching
 
 Census provides a search interface for finding users whose answers match a list

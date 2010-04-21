@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{census}
-  s.version = "0.4.0"
+  s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Kendall"]
-  s.date = %q{2010-04-16}
+  s.date = %q{2010-04-21}
   s.description = %q{Census is a Rails plugin that collects searchable demographics data for each of your application's users.}
   s.email = %q{mark@envylabs.com}
   s.extra_rdoc_files = [
@@ -54,6 +54,7 @@ Gem::Specification.new do |s|
      "lib/census/data_type.rb",
      "lib/census/search.rb",
      "lib/census/user.rb",
+     "lib/census/user_data.rb",
      "rails/init.rb",
      "shoulda_macros/census.rb"
   ]
@@ -85,7 +86,7 @@ Gem::Specification.new do |s|
      "test/rails_root/config/initializers/new_rails_defaults.rb",
      "test/rails_root/config/initializers/session_store.rb",
      "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20100416173354_create_census_tables.rb",
+     "test/rails_root/db/migrate/20100421154808_create_census_tables.rb",
      "test/rails_root/db/schema.rb",
      "test/rails_root/test/factories/census.rb",
      "test/rails_root/test/performance/browsing_test.rb",

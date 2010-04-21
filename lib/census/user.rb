@@ -67,6 +67,14 @@ module Census
       def answer_for_choice(choice)
         answers.select {|a| a.question == choice.question && a.data == choice.value}.first || answers.build(:question => choice.question, :data => '')
       end
+      
+      #
+      # Returns a Census::UserData object that can be used to retrieve this user's
+      # answers.
+      #
+      def census_data
+        @census_data ||= Census::UserData.new(self)
+      end
 
       private
 

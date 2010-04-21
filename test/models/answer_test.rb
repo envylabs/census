@@ -29,13 +29,6 @@ class AnswerTest < ActiveSupport::TestCase
         a = Factory(:answer, :question => Factory(:question, :data_type => 'Number'), :data => '5389')
         assert_equal 5389, a.formatted_data
       end
-
-      should "format booleans" do
-        a = Factory(:answer, :question => Factory(:question, :data_type => 'Yes/No'), :data => '0')
-        assert_equal false, a.formatted_data
-        a.data = '1'
-        assert_equal true, a.formatted_data
-      end
       
     end
     
