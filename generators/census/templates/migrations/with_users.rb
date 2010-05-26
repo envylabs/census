@@ -16,7 +16,7 @@ class CreateCensusTables < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :questions, :data_group_id
+    add_index :questions, :data_group_id, :name=>:idx_qstns_datagrpid
     
     create_table :choices do |t|
       t.integer :question_id
@@ -25,7 +25,7 @@ class CreateCensusTables < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :choices, :question_id
+    add_index :choices, :question_id, :name=>:idx_choices_qstnid
     
     create_table(:users) do |t|
       t.timestamps
@@ -37,22 +37,22 @@ class CreateCensusTables < ActiveRecord::Migration
       t.string  :data
     end
     
-    add_index :answers, :question_id
-    add_index :answers, :user_id
+    add_index :answers, :question_id, :name=>:idx_answrs_qstnid
+    add_index :answers, :user_id, :name=>:idx_answrs_usrid
     
   end
 
   def self.down
-    remove_index :answers, :question_id
-    remove_index :answers, :user_id
+    remove_index :answers, :name=>:idx_answrs_qstnid
+    remove_index :answers, :name=>:idx_answrs_usrid
     drop_table :answers
     
     drop_table :users
     
-    remove_index :choices, :question_id
+    remove_index :choices, :name=>:idx_choices_qstnid
     drop_table :choices
     
-    remove_index :questions, :data_group_id
+    remove_index :questions, :name=>:idx_qstns_datagrpid
     drop_table :questions
     
     drop_table :data_groups
