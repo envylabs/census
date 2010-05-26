@@ -18,5 +18,8 @@ coverage
 rdoc
 pkg
 
+## RVM
+.rvmrc
+
 ## PROJECT::SPECIFIC
 test/rails_root/*
