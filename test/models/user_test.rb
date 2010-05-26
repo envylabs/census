@@ -42,6 +42,82 @@ class UserTest < ActiveSupport::TestCase
       
     end
     
+    context 'using expose_census_data' do
+      
+      setup do
+        @user.class.expose_census_data('Physical Attributes', 'Hair Color', :hair_color)
+        @user.class.expose_census_data('Physical Attributes', 'Weight', :weight)
+      end
+      
+      should 'return string values for string data types' do
+        assert_equal 'Brown', @user.hair_color
+      end
+    
+      should 'return integer values for numeric data types' do
+        assert_equal 150, @user.weight
+      end
+            
+    end
+    
+  end
+
+  context 'Setting answers' do
+    
+    setup do
+      @data_group = Factory(:data_group, :name => 'Physical Attributes')
+      @question1 = Factory(:question, :prompt => 'Hair Color', :data_group => @data_group)
+      @question2 = Factory(:question, :prompt => 'Weight', :data_type => 'Number', :data_group => @data_group)
+
+      @user = Factory(:user)
+    end
+    
+    context 'using auto-generated methods' do
+      
+      should 'allow string values for string data types' do
+        @user.census_data.physical_attributes.hair_color = 'Brown'
+        assert_equal 'Brown', @user.first_answer_for(@question1).formatted_data
+      end
+    
+      should 'allow integer values for numeric data types' do
+        @user.census_data.physical_attributes.weight = 210
+        assert_equal 210, @user.first_answer_for(@question2).formatted_data
+      end
+      
+    end
+
+    context 'using data group and question strings' do
+      
+      should 'allow string values for string data types' do
+        @user.census_data["Physical Attributes"]["Hair Color"] = 'Brown'
+        assert_equal 'Brown', @user.first_answer_for(@question1).formatted_data
+      end
+    
+      should 'allow integer values for numeric data types' do
+        @user.census_data["Physical Attributes"]["Weight"] = 210
+        assert_equal 210, @user.first_answer_for(@question2).formatted_data
+      end
+      
+    end
+    
+    context 'using expose_census_data' do
+      
+      setup do
+        @user.class.expose_census_data('Physical Attributes', 'Hair Color', :hair_color)
+        @user.class.expose_census_data('Physical Attributes', 'Weight', :weight)
+      end
+      
+      should 'allow string values for string data types' do
+        @user.hair_color = 'Brown'
+        assert_equal 'Brown', @user.first_answer_for(@question1).formatted_data
+      end
+    
+      should 'allow integer values for numeric data types' do
+        @user.weight = 210
+        assert_equal 210, @user.first_answer_for(@question2).formatted_data
+      end
+            
+    end
+    
   end
 
 end

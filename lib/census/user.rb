@@ -87,6 +87,20 @@ module Census
     end
 
     module ClassMethods
+      #
+      # Expose a census data value as an attribute on the model class
+      #
+      def expose_census_data(group, data, attribute)
+        instance_eval do
+          define_method attribute.to_s do
+            self.census_data[group.to_s][data.to_s]
+          end
+          
+          define_method "#{attribute.to_s}=" do |value|
+            self.census_data[group.to_s][data.to_s] = value
+          end
+        end
+      end
     end
 
   end

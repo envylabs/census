@@ -103,6 +103,27 @@ you can access the user's answers using strings, like this:
   user.census_data['Physical Attributes']['Weight']
   user.census_data['Physical Attributes']['Hair Color']
 
+== Exposing census answers as model attributes
+
+Starting with version 0.4.2, census allows you to expose its data as attributes
+directly on your model class.  This is especially useful if you're trying to display
+census answers in forms and you'd like Rails' default form handling to work for
+that data.
+
+If we assume that you have census questions defined as in the previous section,
+you can add the following in your User class:
+
+  expose_census_data('Physical Attributes', 'Weight', :weight)
+  expose_census_data('Physical Attributes', 'Hair Color', :hair_color)
+
+And then you can get or set the census answers directly on the user, like this:
+
+  user.weight = 148          # set the user's weight
+  user.weight                # returns 148
+
+  user.hair_color = "Blond"  # set the user's hair color
+  user.hair_color            # returns "Blond"
+
 == Searching
 
 Census provides a search interface for finding users whose answers match a list
