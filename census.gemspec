@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{census}
-  s.version = "0.4.1"
+  s.version = "0.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Kendall"]
-  s.date = %q{2010-04-21}
+  s.date = %q{2010-05-26}
   s.description = %q{Census is a Rails plugin that collects searchable demographics data for each of your application's users.}
   s.email = %q{mark@envylabs.com}
   s.extra_rdoc_files = [
@@ -61,7 +61,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/envylabs/census}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Rails user demographics collection and searching}
   s.test_files = [
     "test/controllers/data_groups_controller_test.rb",
@@ -81,31 +81,17 @@ Gem::Specification.new do |s|
      "test/rails_root/config/environments/test.rb",
      "test/rails_root/config/initializers/backtrace_silencers.rb",
      "test/rails_root/config/initializers/census.rb",
+     "test/rails_root/config/initializers/cookie_verification_secret.rb",
      "test/rails_root/config/initializers/inflections.rb",
      "test/rails_root/config/initializers/mime_types.rb",
      "test/rails_root/config/initializers/new_rails_defaults.rb",
      "test/rails_root/config/initializers/session_store.rb",
      "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20100421154808_create_census_tables.rb",
+     "test/rails_root/db/migrate/20100526201135_create_census_tables.rb",
      "test/rails_root/db/schema.rb",
      "test/rails_root/test/factories/census.rb",
      "test/rails_root/test/performance/browsing_test.rb",
      "test/rails_root/test/test_helper.rb",
-     "test/rails_root/vendor/gems/acts_as_list-0.1.2/lib/acts_as_list.rb",
-     "test/rails_root/vendor/gems/acts_as_list-0.1.2/test/list_test.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/install.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/lib/inverse_of.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/rails/init.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/cases/helper.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/cases/inverse_associations_test.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/models/club.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/models/face.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/models/interest.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/models/man.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/models/sponsor.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/models/zine.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/test/schema/schema.rb",
-     "test/rails_root/vendor/gems/inverse_of-0.0.1/uninstall.rb",
      "test/test_helper.rb"
   ]
 
@@ -113,7 +99,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<acts_as_list>, [">= 0.1.2"])
       s.add_runtime_dependency(%q<inverse_of>, [">= 0.0.1"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
