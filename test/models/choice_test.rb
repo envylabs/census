@@ -17,6 +17,8 @@ class ChoiceTest < ActiveSupport::TestCase
 
     should_allow_mass_assignment_of :value
     
+    should_act_as_list
+    
   end
   
 end

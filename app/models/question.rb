@@ -1,6 +1,8 @@
 class Question < ActiveRecord::Base
 
   belongs_to :data_group, :inverse_of => :questions
+
+  acts_as_list
   default_scope :order => :position
   
   has_many :choices, :dependent => :destroy, :inverse_of => :question
@@ -10,7 +12,7 @@ class Question < ActiveRecord::Base
   
   validates_presence_of :prompt,
                         :data_group
-                 
+               
   def sql_transform(column_name = '?')
     data_type_definition.sql_transform.call(column_name)
   end

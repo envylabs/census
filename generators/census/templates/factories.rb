@@ -1,3 +1,7 @@
+Factory.sequence :question do |n|
+  "Question #{n}"
+end
+
 Factory.define :answer do |answer|
   answer.association :question
   answer.association :user
@@ -15,7 +19,7 @@ end
 
 Factory.define :question do |question|
   question.association  :data_group
-  question.prompt       'Enter your response'
+  question.prompt       { Factory.next :question }
   question.multiple     false
   question.other        false
 end

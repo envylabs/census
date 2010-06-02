@@ -3,55 +3,77 @@ module Census
 
     def initialize(user, data_group = nil)
       @user = user
-      
-      if data_group
-        @questions = {}
-        define_question_methods(data_group)
+      @data_group = data_group
+      reload
+    end
+    
+    def reload
+      if @data_group
+        @questions = []
+        define_question_methods(@data_group)
       else
-        @data_groups = Hash.new { |h,v| h[v] = {} }
+        @data_groups = []
         define_data_group_methods
       end
     end
     
+    def name
+      @data_group.name if @data_group
+    end
+    
     def [](key)
       if @data_groups
-        @data_groups[key]
+        find_data_group(key)
       else
-        @user.first_answer_for(@questions[key]).formatted_data if @questions[key]
+        question = find_question(key)
+        @user.first_answer_for(question).formatted_data if question
       end
     end
 
     def []=(key, value)
       if @data_groups
-        @data_groups[key] = value
+        raise ArgumentError, "Can't be invoked on a Data Group"
       else
-        @user.first_answer_for(@questions[key]).update_attribute(:data, @questions[key].format_data(value).to_s) if @questions[key]
+        question = find_question(key)
+        @user.first_answer_for(question).update_attribute(:data, question.format_data(value).to_s) if question
       end
     end
 
+    def each_pair
+      self.keys.each{ |key| yield key, self.send(key.parameterize.underscore.to_sym) }
+    end
+    
+    
+    protected
+    
+    
     def keys
-      (@data_groups || @questions).keys
+      if @data_groups
+        @data_groups.map(&:name)
+      else
+        @questions.map(&:prompt)
+      end
     end
-
-    def each_pair(&block)
-      to_hash.each_pair(&block)
-    end
-    
-    def to_hash
-      self.keys.inject({}){ |hash, key| hash[key] = self.send(key.parameterize.underscore.to_sym); hash }
-    end
-    
+        
     
     private
+
     
+    def find_data_group(name)
+      @data_groups.select {|group| group.name == name}.first
+    end
     
+    def find_question(prompt)
+      @questions.select {|question| question.prompt == prompt}.first
+    end
+        
     def define_data_group_methods
       DataGroup.all.each do |group|
-        @data_groups[group.name] = Census::UserData.new(@user, group)
+        @data_groups << Census::UserData.new(@user, group)
         
         (class << self; self; end).class_eval do
           define_method group.name.parameterize.underscore do
-            @data_groups[group.name]
+            find_data_group(group.name)
           end
         end
       end
@@ -59,7 +81,7 @@ module Census
     
     def define_question_methods(data_group)
       data_group.questions.each do |question|
-        @questions[question.prompt] = question
+        @questions << question
         
         (class << self; self; end).class_eval do
           define_method question.prompt.parameterize.underscore do

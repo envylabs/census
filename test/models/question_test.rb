@@ -23,6 +23,8 @@ class QuestionTest < ActiveSupport::TestCase
                                     :other
                                     
     should_accept_nested_attributes_for :choices
+    
+    should_act_as_list
 
     should "return a default sql transform" do
       assert '"?"', @question.sql_transform

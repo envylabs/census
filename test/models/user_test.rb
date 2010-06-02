@@ -58,6 +58,25 @@ class UserTest < ActiveSupport::TestCase
       end
             
     end
+
+    context 'using each_pair' do
+      
+      should 'retrieve data groups and their question lists when called directly on census_data' do
+        @user.census_data.each_pair do |key, value|
+          assert_contains ['Physical Attributes'], key
+          assert value.kind_of?(Census::UserData)
+        end
+      end
+
+      should 'retrieve pairs of questions and answers when called for a data group' do
+        @user.census_data['Physical Attributes'].each_pair do |key, value|
+          assert_contains ['Hair Color', 'Weight'], key
+          assert_equal 'Brown', value if key == 'Hair Color'
+          assert_equal 150, value if key == 'Weight'
+        end
+      end
+    
+    end
     
   end
 
@@ -120,31 +139,23 @@ class UserTest < ActiveSupport::TestCase
     
   end
   
-  context 'Enumerating answers' do
+  context 'Enumerating answers with each_pair' do
     
     setup do
-      @data_group = Factory(:data_group, :name => 'Physical Attributes')
-      @question1 = Factory(:question, :prompt => 'Hair Color', :data_group => @data_group)
-      @question2 = Factory(:question, :prompt => 'Weight', :data_type => 'Number', :data_group => @data_group)
-
+      @data_group = Factory(:data_group)
+      10.times {|i| Factory(:question, :prompt => i.to_s, :data_group => @data_group)}
       @user = Factory(:user)
-      @user.answers << Factory(:answer, :question => @question1, :data => 'Brown')
-      @user.answers << Factory(:answer, :question => @question2, :data => '150')
     end
     
-    should 'retrieve data groups and their question lists' do
-      @user.census_data.each_pair do |key, value|
-        assert_contains ['Physical Attributes'], key
-        assert value.kind_of?(Census::UserData)
-      end
-    end
-    
-    should 'retrieve pairs of questions and answers for a data group' do
-      @user.census_data['Physical Attributes'].each_pair do |key, value|
-        assert_contains ['Hair Color', 'Weight'], key
-        assert_equal 'Brown', value if key == 'Hair Color'
-        assert_equal 150, value if key == 'Weight'
-      end
+    should 'maintain the correct order for questions' do
+      assert_equal ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        @user.census_data[@data_group.name].each_pair {|key, value| key}
+      
+      @data_group.questions.first.move_to_bottom
+      @user.census_data.reload
+      
+      assert_equal ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+        @user.census_data[@data_group.name].each_pair {|key, value| key}
     end
 
   end
