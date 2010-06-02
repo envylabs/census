@@ -33,8 +33,8 @@ module Census
       (@data_groups || @questions).keys
     end
 
-    def each_pair
-      to_hash.each_pair{ |k,v| yield k, v }
+    def each_pair(&block)
+      to_hash.each_pair(&block)
     end
     
     def to_hash

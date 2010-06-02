@@ -119,5 +119,34 @@ class UserTest < ActiveSupport::TestCase
     end
     
   end
+  
+  context 'Enumerating answers' do
+    
+    setup do
+      @data_group = Factory(:data_group, :name => 'Physical Attributes')
+      @question1 = Factory(:question, :prompt => 'Hair Color', :data_group => @data_group)
+      @question2 = Factory(:question, :prompt => 'Weight', :data_type => 'Number', :data_group => @data_group)
+
+      @user = Factory(:user)
+      @user.answers << Factory(:answer, :question => @question1, :data => 'Brown')
+      @user.answers << Factory(:answer, :question => @question2, :data => '150')
+    end
+    
+    should 'retrieve data groups and their question lists' do
+      @user.census_data.each_pair do |key, value|
+        assert_contains ['Physical Attributes'], key
+        assert value.kind_of?(Census::UserData)
+      end
+    end
+    
+    should 'retrieve pairs of questions and answers for a data group' do
+      @user.census_data['Physical Attributes'].each_pair do |key, value|
+        assert_contains ['Hair Color', 'Weight'], key
+        assert_equal 'Brown', value if key == 'Hair Color'
+        assert_equal 150, value if key == 'Weight'
+      end
+    end
+
+  end
 
 end
