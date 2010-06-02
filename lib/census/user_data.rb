@@ -34,7 +34,11 @@ module Census
     end
 
     def each_pair
-      self.keys.each{ |key| yield key, self.send(key.parameterize.underscore.to_sym) }
+      to_hash.each_pair{ |k,v| yield k, v }
+    end
+    
+    def to_hash
+      self.keys.inject({}){ |hash, key| hash[key] = self.send(key.parameterize.underscore.to_sym); hash }
     end
     
     
