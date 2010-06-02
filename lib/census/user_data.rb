@@ -28,6 +28,14 @@ module Census
         @user.first_answer_for(@questions[key]).update_attribute(:data, @questions[key].format_data(value).to_s) if @questions[key]
       end
     end
+
+    def keys
+      (@data_groups || @questions).keys
+    end
+
+    def each_pair
+      self.keys.each{ |key| yield key, self.send(key.parameterize.underscore.to_sym) }
+    end
     
     
     private
