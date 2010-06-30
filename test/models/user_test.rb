@@ -12,10 +12,18 @@ class UserTest < ActiveSupport::TestCase
       @data_group = Factory(:data_group, :name => 'Physical Attributes')
       @question1 = Factory(:question, :prompt => 'Hair Color', :data_group => @data_group)
       @question2 = Factory(:question, :prompt => 'Weight', :data_type => 'Number', :data_group => @data_group)
+      @question3 = Factory(:question, :prompt => 'Favorite Color', :multiple => true, :data_group => @data_group)
+      @red = Factory(:choice, :question => @question3, :value => 'Red')
+      @green = Factory(:choice, :question => @question3, :value => 'Green')
+      @blue = Factory(:choice, :question => @question3, :value => 'Blue')
+      @yellow = Factory(:choice, :question => @question3, :value => 'Yellow')
 
       @user = Factory(:user)
-      @user.answers << Factory(:answer, :question => @question1, :data => 'Brown')
-      @user.answers << Factory(:answer, :question => @question2, :data => '150')
+      Factory(:answer, :question => @question1, :data => 'Brown', :user => @user)
+      Factory(:answer, :question => @question2, :data => '150', :user => @user)
+      Factory(:answer, :question => @question3, :data => 'Blue', :user => @user)
+      Factory(:answer, :question => @question3, :data => 'Green', :user => @user)
+      @user.reload
     end
     
     context 'using auto-generated methods' do
@@ -26,6 +34,10 @@ class UserTest < ActiveSupport::TestCase
     
       should 'return integer values for numeric data types' do
         assert_equal 150, @user.census_data.physical_attributes.weight
+      end
+
+      should 'return an array of values for questions with multiple answers' do
+        assert_equal ['Blue', 'Green'], @user.census_data.physical_attributes.favorite_color
       end
       
     end
@@ -40,6 +52,10 @@ class UserTest < ActiveSupport::TestCase
         assert_equal 150, @user.census_data['Physical Attributes']['Weight']
       end
       
+      should 'return an array of values for questions with multiple answers' do
+        assert_equal ['Blue', 'Green'], @user.census_data['Physical Attributes']['Favorite Color']
+      end
+
     end
     
     context 'using expose_census_data' do
@@ -47,6 +63,7 @@ class UserTest < ActiveSupport::TestCase
       setup do
         @user.class.expose_census_data('Physical Attributes', 'Hair Color', :hair_color)
         @user.class.expose_census_data('Physical Attributes', 'Weight', :weight)
+        @user.class.expose_census_data('Physical Attributes', 'Favorite Color', :favorite_color)
       end
       
       should 'return string values for string data types' do
@@ -57,6 +74,10 @@ class UserTest < ActiveSupport::TestCase
         assert_equal 150, @user.weight
       end
             
+      should 'return an array of values for questions with multiple answers' do
+        assert_equal ['Blue', 'Green'], @user.favorite_color
+      end
+
     end
 
     context 'using each_pair' do
@@ -70,9 +91,10 @@ class UserTest < ActiveSupport::TestCase
 
       should 'retrieve pairs of questions and answers when called for a data group' do
         @user.census_data['Physical Attributes'].each_pair do |key, value|
-          assert_contains ['Hair Color', 'Weight'], key
+          assert_contains ['Hair Color', 'Weight', 'Favorite Color'], key
           assert_equal 'Brown', value if key == 'Hair Color'
           assert_equal 150, value if key == 'Weight'
+          assert_equal ['Blue', 'Green'], value if key == 'Favorite Color'
         end
       end
     
@@ -86,6 +108,11 @@ class UserTest < ActiveSupport::TestCase
       @data_group = Factory(:data_group, :name => 'Physical Attributes')
       @question1 = Factory(:question, :prompt => 'Hair Color', :data_group => @data_group)
       @question2 = Factory(:question, :prompt => 'Weight', :data_type => 'Number', :data_group => @data_group)
+      @question3 = Factory(:question, :prompt => 'Favorite Color', :multiple => true, :data_group => @data_group)
+      @red = Factory(:choice, :question => @question3, :value => 'Red')
+      @green = Factory(:choice, :question => @question3, :value => 'Green')
+      @blue = Factory(:choice, :question => @question3, :value => 'Blue')
+      @yellow = Factory(:choice, :question => @question3, :value => 'Yellow')
 
       @user = Factory(:user)
     end
@@ -100,6 +127,11 @@ class UserTest < ActiveSupport::TestCase
       should 'allow integer values for numeric data types' do
         @user.census_data.physical_attributes.weight = 210
         assert_equal 210, @user.first_answer_for(@question2).formatted_data
+      end
+
+      should 'accept arrays for questions that allow multiple answers' do
+        @user.census_data.physical_attributes.favorite_color = ['Yellow', 'Red']
+        assert_equal ['Yellow', 'Red'], @user.all_answers_for(@question3).map(&:formatted_data)
       end
       
     end
@@ -116,6 +148,11 @@ class UserTest < ActiveSupport::TestCase
         assert_equal 210, @user.first_answer_for(@question2).formatted_data
       end
       
+      should 'accept arrays for questions that allow multiple answers' do
+        @user.census_data["Physical Attributes"]["Favorite Color"] = ['Yellow', 'Red']
+        assert_equal ['Yellow', 'Red'], @user.all_answers_for(@question3).map(&:formatted_data)
+      end
+      
     end
     
     context 'using expose_census_data' do
@@ -123,6 +160,7 @@ class UserTest < ActiveSupport::TestCase
       setup do
         @user.class.expose_census_data('Physical Attributes', 'Hair Color', :hair_color)
         @user.class.expose_census_data('Physical Attributes', 'Weight', :weight)
+        @user.class.expose_census_data('Physical Attributes', 'Favorite Color', :favorite_color)
       end
       
       should 'allow string values for string data types' do
@@ -135,6 +173,11 @@ class UserTest < ActiveSupport::TestCase
         assert_equal 210, @user.first_answer_for(@question2).formatted_data
       end
             
+      should 'accept arrays for questions that allow multiple answers' do
+        @user.favorite_color = ['Yellow', 'Red']
+        assert_equal ['Yellow', 'Red'], @user.all_answers_for(@question3).map(&:formatted_data)
+      end
+      
     end
     
   end

@@ -25,8 +25,7 @@ module Census
       if @data_groups
         find_data_group(key)
       else
-        question = find_question(key)
-        @user.first_answer_for(question).formatted_data if question
+        answer_for(find_question(key))
       end
     end
 
@@ -34,8 +33,7 @@ module Census
       if @data_groups
         raise ArgumentError, "Can't be invoked on a Data Group"
       else
-        question = find_question(key)
-        @user.first_answer_for(question).update_attribute(:data, question.format_data(value).to_s) if question
+        set_answer_for(find_question(key), value)
       end
     end
 
@@ -66,6 +64,27 @@ module Census
     def find_question(prompt)
       @questions.select {|question| question.prompt == prompt}.first
     end
+
+    def answer_for(question)
+      if question
+        if question.multiple?
+          @user.all_answers_for(question).map(&:formatted_data)
+        else
+          @user.first_answer_for(question).formatted_data
+        end
+      end
+    end
+
+    def set_answer_for(question, value)
+      if question
+        if question.multiple? && value.kind_of?(Array)
+          @user.all_answers_for(question).each { |a| a.destroy }
+          value.each { |v| @user.answers.build(:question => question, :data => v) }
+        else
+          @user.first_answer_for(question).update_attribute(:data, question.format_data(value).to_s)
+        end
+      end
+    end
         
     def define_data_group_methods
       DataGroup.all.each do |group|
@@ -85,11 +104,11 @@ module Census
         
         (class << self; self; end).class_eval do
           define_method question.prompt.parameterize.underscore do
-            @user.first_answer_for(question).formatted_data
+            answer_for(question)
           end
 
           define_method "#{question.prompt.parameterize.underscore}=" do |value|
-            @user.first_answer_for(question).update_attribute(:data, question.format_data(value).to_s)
+            set_answer_for(question, value)
           end
         end
       end
