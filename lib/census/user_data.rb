@@ -17,7 +17,7 @@ module Census
       end
     end
     
-    def name
+    def group_name
       @data_group.name if @data_group
     end
     
@@ -47,7 +47,7 @@ module Census
     
     def keys
       if @data_groups
-        @data_groups.map(&:name)
+        @data_groups.map(&:group_name)
       else
         @questions.map(&:prompt)
       end
@@ -58,7 +58,7 @@ module Census
 
     
     def find_data_group(name)
-      @data_groups.select {|group| group.name == name}.first
+      @data_groups.select {|group| group.group_name == name}.first
     end
     
     def find_question(prompt)
