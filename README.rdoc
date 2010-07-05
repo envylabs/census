@@ -70,7 +70,7 @@ Census provides a partial that you can include in a form that collects answers
 from your users. This partial assumes it's inside of a form_for(:user) block. It
 will render fields for each of the questions you've defined.
 
- <%= render 'census/user_answers', :user => @user %>
+ <%= render 'census/user_questions', :user => @user %>
 
 Data groups are rendered as fieldsets that contain a list of input fields, one
 for each question. If you take a look at the rendered HTML, you'll see several
