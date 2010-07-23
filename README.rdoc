@@ -147,6 +147,12 @@ method to query the database and get back the list of matching users.
 
   users = search.perform
 
+== Running the tests
+
+In order to run the test suite for Census, first make sure you have all of the dependencies installed. Then, you need create a blank rails app in the test/rails_root folder and add 'shoulda' and 'factory_girl' as gem dependencies for that app's test environment (test/rails_root/config/environments/test.rb).
+
+The default rake task runs the test suite for Census.
+
 == Copyright
 
 Copyright (c) 2010 Envy Labs LLC. See LICENSE for details.
