@@ -22,6 +22,7 @@ class CreateCensusTables < ActiveRecord::Migration
       t.integer :question_id
       t.string  :value
       t.integer :position
+      t.string  :group
       t.timestamps
     end
     

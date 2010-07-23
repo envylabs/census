@@ -7,5 +7,10 @@ class Choice < ActiveRecord::Base
   
   validates_presence_of :value,
                         :question
+
+  named_scope :from_group, lambda{ |group_name| {
+    :conditions => { :group => group_name }  }
+  }
+
   
 end
