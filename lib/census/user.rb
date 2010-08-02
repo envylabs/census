@@ -20,6 +20,7 @@ module Census
       model.send(:include, InstanceMethods)
       model.send(:include, Associations)
       model.send(:include, Callbacks)
+      model.send(:include, Scopes)
     end
 
     module Associations
@@ -39,6 +40,28 @@ module Census
       def self.included(model)
         model.class_eval do
           after_save :remove_empty_answers
+        end
+      end
+    end
+
+    module Scopes
+      #
+      # This scope can be used to find other users who have census answers in common with the
+      # given user. The returned list is sorted such that users with the most answers in
+      # common are at the beginning of the list.
+      #
+      def self.included(model)
+        model.class_eval do
+          named_scope :with_matching_census_answers, lambda { |user, limit|
+            {
+              :select => "DISTINCT users.*, COUNT(answers.id) AS census_match_score",
+              :joins => "LEFT JOIN `answers` AS answers ON answers.user_id = users.id LEFT JOIN `answers` AS other_answers ON other_answers.user_id = #{user.id}", 
+              :conditions => ['users.id <> ? AND answers.data = other_answers.data AND answers.question_id = other_answers.question_id', user.id],
+              :group => 'users.id',
+              :order => 'census_match_score DESC',
+              :limit => limit
+            }
+          }
         end
       end
     end
